@@ -1,0 +1,114 @@
+
+SELECT *
+  FROM [dbo].[Impiegato]
+  WHERE Eta > 29
+
+
+SELECT *
+  FROM [dbo].[Impiegato]
+  WHERE RedditoMensile > 800
+
+
+SELECT *
+  FROM [dbo].[Impiegato]
+  WHERE DetrazioneFIscale = 0
+
+
+
+SELECT *
+  FROM [dbo].[Impiegato]
+  WHERE DetrazioneFIscale = 1
+
+
+
+SELECT Cognome
+  FROM [dbo].[Impiegato]
+ WHERE Cognome LIKE 'g%'
+ ORDER BY Cognome
+
+
+SELECT COUNT (*)
+  FROM [dbo].[Impiegato]
+ 
+
+
+SELECT SUM(RedditoMensile)
+  FROM [dbo].[Impiegato]
+
+SELECT AVG(RedditoMensile)
+  FROM [dbo].[Impiegato]
+ 
+
+SELECT MAX(RedditoMensile)
+  FROM [dbo].[Impiegato]
+ 
+
+SELECT MIN(RedditoMensile)
+  FROM [dbo].[Impiegato]
+ 
+
+SELECT *
+  FROM [dbo].[Impiegato]
+ WHERE Data_Assunzione BETWEEN 01/01/2007 and 01/01/2008
+
+SELECT *
+  FROM [dbo].[Impiegato] as a
+  join dbo.Impiego as b on a.IDImpiego = b.IDImpiegato
+ where a.IDImpiego = 2
+ 
+SELECT avg(Eta) as MediaEta
+  FROM [dbo].[Impiegato]
+
+CREATE PROCEDURE CreaImpiegato
+	@Cognome varchar(50),
+    @Nome varchar(50),
+    @CodiceFiscale char(16),
+    @Eta int,
+    @RedditoMensile money,
+    @DetrazioneFIscale bit,
+    @Data_Assunzione date,
+    @IDImpiego int
+AS
+BEGIN
+	-- SET NOCOUNT ON added to prevent extra result sets from
+	-- interfering with SELECT statements.
+	SET NOCOUNT ON;
+	INSERT INTO Impiegato
+	(Cognome 
+           ,Nome 
+           ,CodiceFiscale
+           ,Eta 
+           ,RedditoMensile 
+           ,DetrazioneFIscale 
+           ,Data_Assunzione
+           ) 
+	VALUES (@Cognome, @Nome, @CodiceFiscale, @Eta, @RedditoMensile, @DetrazioneFIscale, @Data_Assunzione)
+END
+
+
+
+
+CREATE PROCEDURE ModificaImpiegato
+    @ID INT,
+    @Cognome VARCHAR(50),
+    @Nome VARCHAR(50),
+    @CodiceFiscale NCHAR(16),
+    @Eta INT,
+    @RedditoMensile MONEY,
+    @DetrazioneFiscale BIT,
+    @Data_Assunzione DATE
+AS
+BEGIN
+    UPDATE Impiegato
+    SET Cognome = @Cognome,
+        Nome = @Nome,
+        CodiceFiscale = @CodiceFiscale,
+        Eta = @Eta,
+        RedditoMensile = @RedditoMensile,
+        DetrazioneFiscale = @DetrazioneFiscale,
+        Data_Assunzione = @Data_Assunzione
+    WHERE IDImpiegato = @ID;
+END;
+
+
+
